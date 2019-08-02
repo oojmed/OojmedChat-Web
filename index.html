@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Oojmed Chat</title>
+
+	<meta charset="utf-8">
+	<meta name="title" content="Oojmed Chat">
+	<meta name="robots" content="index, follow">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="A simple chat, with a simple interface.">
+	<meta name="theme-color" content="#6a9ef2">
+	<meta name="msapplication-navbutton-color" content="#6a9ef2">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#6a9ef2">
+
+	<script src="https://oojmed.com/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous">
+	</script>
+
+	<script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+	<link href="chat.css" rel="stylesheet">
+	<script src="chat.js"></script>
+
+	<link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body onload="load();" data-theme="dark" data-author-background="false" data-thickness="light" data-my-messages-right="false">
+	<div class="cusContainer">
+		<div class="main">
+			<div id="debug" style="right: 10px; top: 10px; position: absolute; z-index:100;"></div>
+			<div id="channel-container">
+				<div style="float: right; padding: 0px; font-size: 30px; height: 30px;">
+					<div id="modeChangers" style="width: fit-content; display: inline-block;">
+						<div id="nightMode" title="Night Mode" style="display: none;" onclick="javascript:nightMode();">
+							<i class="fas fa-moon spin-hover" aria-hidden="true"></i>
+						</div>
+						<div id="lightMode" title="Light Mode" onclick="javascript:lightMode();"><i class="fas fa-sun spin-hover" aria-hidden="true"></i></div>
+					</div>
+
+					<i class="fas fa-cog spin-hover" aria-hidden="true" data-toggle="modal" data-target="#settingsModal"></i>
+				</div>
+
+				<h5 style="margin: 0; margin-top: 14px; margin-bottom: 3px;">Channels</h5>
+
+				<div id="channels">
+
+				</div>
+
+				<form class="input-group" onsubmit="createOrJoin(); return false;">
+					<input style="border-top: none;" autocomplete="off" type="text" id="channelInput" class="form-control form-control" placeholder="Join or create a channel...">
+					<div class="input-group-append">
+						<button style="height: 38px; border-bottom-right-radius: 5px;" onclick="createOrJoin();" id="send-button" type="button" class="btn btn">➜</button>
+					</div>
+				</form>
+			</div>
+
+			<div id="channel-hider">
+				<div id="channel-hider-content" onclick="javascript:toggleChannelHidden(this);">
+					<
+				</div>
+			</div>
+
+			<div id="chat-container">
+				<div id="chat">
+
+				</div>
+
+				<form class="input-group" onsubmit="message(); return false;" style="margin-top:2px;">
+					<input style="border-bottom: none; border-left: none;" autocomplete="off" type="text" id="messageInput" class="form-control form-control" placeholder="Type your message...">
+					<div class="input-group-append">
+						<button style="height: 38px; padding-bottom: 1px;" onclick="message();" id="send-button" type="button" class="btn btn">➜</button>
+					</div>
+				</form>
+			</div>
+	</div>
+	<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="background-color: rgba(225, 225, 225, 0.95); color:#1f1f1f;">
+				<div class="modal-header" style="border-bottom: 1px solid rgba(0, 0, 0, 0.2);">
+					<h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Author Background: <input id="authorBackgroundCheckbox" onchange="javascript:toggleAuthorBackground(this);" type="checkbox"></input>
+					<br/>
+
+					My Messages Right: <input id="myMessagesRightCheckbox" onchange="javascript:toggleMyMessagesRight(this);" type="checkbox"></input>
+					<br/>
+
+					Light Font: <input checked id="thicknessCheckbox" onchange="javascript:toggleThickness(this);" type="checkbox"></input>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Oojmed Chat - Guest Login</title>
+
+  <script>
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/; domain=.oojmed.com";
+    }
+
+    setCookie('oojmed_token', '4cwCUh0W1mMUw86TGRdeAcHupvOTEiIH7fmJ_hn9bGOWdtlNzf2Z95aoaMKP8ok2-ErbuIg51VByKSkAZt3iqDznRq4-jsyNxx7gLXC_Y6Q3vYQrpFFSPBsJXl0DeLV', 365);
+
+    location.href = "https://chat.oojmed.com/beta/";
+  </script>
+</head>
+
+<body>
+
+</body>
+</html>
