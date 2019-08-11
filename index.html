@@ -16,8 +16,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	<script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous">
-	</script>
 
 	<script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
 
@@ -25,7 +23,8 @@
 
 	<link href="chat.css" rel="stylesheet">
 	<script src="chat.js"></script>
-	<link rel="stylesheet" href="https://oojmed.com/material.grey-pink.min.css" />
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-pink.min.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<link rel="shortcut icon" href="favicons/favicon.ico">
 	<link rel="icon" sizes="16x16 32x32 64x64" href="favicons/favicon.ico">
@@ -51,28 +50,43 @@
 
 <body onload="load();" data-theme="dark" data-author-background="false" data-thickness="light" data-my-messages-right="false" data-12-hour-time="true" data-message-shadows="true" data-channels-panel-shadow="true" data-channels-panel-header-shadow="true">
 	<div class="cusContainer">
-		<div class="main">
+		<main class = "main mdl-layout__content">
 			<div id="debug" style="right: 10px; top: 10px; position: absolute; z-index:100; font-size: 14px;"></div>
 			<div id="channel-container">
 				<div id="channel-header">
-					<div style="float: right; padding: 7px 1px; font-size: 30px; height: 30px; cursor: default;">
-						<i id="usersToggle" class="fas fa-users spin-hover" style="cursor: pointer;" aria-hidden="true" data-toggle="modal" data-target="#usersModal"></i>
+					<div style="float: right; padding: 7px 3px; font-size: 34px; cursor: default;">
+						<i id="usersToggle" class="material-icons spin-hover" style="margin: 0px -2.5px; cursor: pointer; font-size: inherit;" aria-hidden="true" data-toggle="modal" data-target="#usersModal">people</i>
 
 						<div id="modeChangers" style="width: fit-content; display: inline-block; cursor: default;">
 							<div id="nightMode" title="Night Mode" style="display: none; cursor: pointer;" onclick="javascript:nightMode();">
-								<i class="fas fa-moon spin-hover" aria-hidden="true"></i>
+								<i class="material-icons spin-hover" style="cursor: pointer; margin: 0px -2.5px; font-size: inherit;" aria-hidden="true">brightness_2</i>
 							</div>
-							<div id="lightMode" title="Light Mode" style="cursor: pointer;" onclick="javascript:lightMode();"><i class="fas fa-sun spin-hover" aria-hidden="true"></i></div>
+							<div id="lightMode" title="Light Mode" style="cursor: pointer;" onclick="javascript:lightMode();">
+								<i class="material-icons spin-hover" style="cursor: pointer; margin: 0px -2.5px; font-size: inherit;" aria-hidden="true">brightness_7</i>
+							</div>
 						</div>
 
-						<i id="settingsToggle" class="fas fa-cog spin-hover" style="cursor: pointer;" aria-hidden="true" data-toggle="modal" data-target="#settingsModal"></i>
+						<i id="settingsToggle" class="material-icons spin-hover" style="margin: 0px -2.5px; cursor: pointer; font-size: inherit;" aria-hidden="true" data-toggle="modal" data-target="#settingsModal">settings</i>
 					</div>
 
 					<h5 style="margin: 0; margin-top: 14px; margin-bottom: 3px;">Channels</h5>
 				</div>
 
-				<div id="channels">
+				<div id="channels-tabs" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+        	<div class="mdl-tabs__tab-bar" style="border-bottom: none; width: 100%;">
+          	<a href="#channels-panel" class="mdl-tabs__tab is-active">Channels</a>
+            <a href="#directs-panel" class="mdl-tabs__tab">Directs</a>
+          </div>
 
+					<div class="mdl-tabs__panel is-active" id="channels-panel">
+						<div id="channels">
+						</div>
+					</div>
+
+					<div class="mdl-tabs__panel" id="directs-panel">
+						<div id="directs">
+						</div>
+					</div>
 				</div>
 
 				<form class="input-group" onsubmit="createOrJoin(); return false;" style="bottom: 1px; position: absolute;">
@@ -108,7 +122,8 @@
 					</div>
 				</form>
 			</div>
-		</div>
+		</main>
+	</div>
 
 		<div class="modal fade" id="usersModal" tabindex="-1" role="dialog" aria-labelledby="usersModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -120,8 +135,9 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<ul id="users">
-						</ul>
+						<div id="users" class="mdl-list">
+
+						</div>
 					</div>
 				</div>
 			</div>
@@ -137,7 +153,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<h4 style="text-decoration: underline;">Appearance</h4>
+						<h4 style="text-decoration: underline; margin-top: 5px; margin-bottom: 5px;">Appearance</h4>
 						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="authorBackgroundCheckbox">
   						<input type="checkbox" class="mdl-switch__input" id="authorBackgroundCheckbox" onchange="javascript:toggleAuthorBackground(this);">
   						<span class="mdl-switch__label">Author Background</span>
@@ -177,7 +193,7 @@
 			</div>
 		</div>
 
-		<script src="https://oojmed.com/material.min.js"></script>
+		<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </body>
 
 </html>

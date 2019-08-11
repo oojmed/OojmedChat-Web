@@ -88,7 +88,7 @@ function lightMode() {
 function channelClick(element) {
 	activeChannel = element.innerText;
 
-	var shownChannels = $("#channels").children();
+	var shownChannels = $.merge($("#channels").children(), $("#directs").children())
 
 	for (var i = 0; i < shownChannels.length; i++) {
 		shownChannels[i].className = "channel";
@@ -148,6 +148,17 @@ function message() {
 				update();
 			});
 	}
+}
+
+function createDM(reciever) {
+	$.post("https://api.oojmed.com/chat/message", {
+			token: ojToken,
+			channel: activeChannel,
+			msg: "!sys_dm " + reciever
+		})
+		.done(function (data) {
+			update();
+		});
 }
 
 function createOrJoin() {
@@ -429,7 +440,7 @@ function update() {
 			window.t0 = performance.now();
 
 			for (var i = 0; i < channels.length; i++) {
-				var replacedChannel = channels[i].replace(/ /g, '-');
+				var replacedChannel = channels[i].replace(/[ \/]/g,'-');
 
 				if ($("#ch-" + replacedChannel).html() == undefined) {
 					var c = "channel";
@@ -438,9 +449,20 @@ function update() {
 						c = "current-channel";
 					}
 
-					var element = '<a onclick="javascript:channelClick(this);" id="ch-' + replacedChannel + '" href="#' + channels[i] + '" class="' + c + '">' + channels[i] + '</a> <br />';
+					var appendToElement = "channels";
+					if (channels[i].substring(0, 3) === "DM/") {
+						var other = channels[i].split('/').slice(-2).filter(u=>u!=username)[0];
 
-					var realElement = $(twemoji.parse(element)).hide().fadeIn(1000).appendTo("#channels");
+						if (other == undefined) { other = username; }
+
+						var element = '<a onclick="javascript:channelClick(this);" id="ch-' + replacedChannel + '" href="#' + channels[i] + '" class="' + c + '">' + other + '</a> <br />';
+
+						appendToElement = "directs";
+					} else {
+						var element = '<a onclick="javascript:channelClick(this);" id="ch-' + replacedChannel + '" href="#' + channels[i] + '" class="' + c + '">' + channels[i] + '</a> <br />';
+					}
+
+					var realElement = $(twemoji.parse(element)).hide().fadeIn(1000).appendTo("#" + appendToElement);
 
 					if (channels[i] == activeChannel) {
 						channelClick(realElement[0]);
@@ -474,7 +496,7 @@ function update() {
 						c = " author-mod";
 					}
 
-					var element = '<li id="usr-' + replacedUser + '" class="author' + c + '">@' + users[i]["name"] + '</li>';
+					var element = '<div class="mdl-list__item" id="usr-' + replacedUser + '"><span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">person</i><span>' + users[i]["name"] + '</span></span><div class="mdl-list__item-secondary-action" onclick="javascript:createDM(\'' + users[i]["name"] + '\');"><i class="material-icons">chat_bubble</i></div></div>';
 
 					$(twemoji.parse(element)).hide().fadeIn(1000).appendTo("#users");
 				}

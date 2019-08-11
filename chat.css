@@ -139,17 +139,17 @@ body[data-theme="dark"] #channel-header {
   background-color: #424242;
 }
 
-body[data-channels-panel-header-shadow="true"] #channels {
+body[data-channels-panel-header-shadow="true"] #channels, #directs {
   -moz-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
   -webkit-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
   box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
 }
 
-#channels {
+#channels, #directs {
   overflow: auto;
 
   width: 100%;
-  height: calc(100% - 45px - 37px);
+  height: 100%;
   padding: 10px;
 
   -webkit-transition: all 0.2s linear;
@@ -158,11 +158,11 @@ body[data-channels-panel-header-shadow="true"] #channels {
   transition: all 0.2s linear;
 }
 
-body[data-theme="light"] #channels {
+body[data-theme="light"] #channels, #directs {
   background-color: white;
 }
 
-body[data-theme="dark"] #channels {
+body[data-theme="dark"] #channels, #directs {
   background-color: #2f2f2f;
 }
 
@@ -343,7 +343,7 @@ body[data-theme="dark"] .message-me .content {
 body[data-message-shadows="true"] .content {
   -moz-box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
   -webkit-box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
-  box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);  
+  box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
 }
 
 .content {
@@ -661,4 +661,59 @@ body[data-theme="dark"] .close {
   transform: translateY(-50%);
 
   position: absolute;
+}
+
+.modal-title {
+  margin: 0;
+}
+
+.mdl-list__item .mdl-list__item-primary-content .mdl-list__item-icon {
+  margin-right: 16px !important;
+}
+
+.mdl-list__item .mdl-list__item-secondary-action .material-icons {
+  color: rgb(255,64,129);
+  cursor: pointer;
+}
+
+.mdl-list__item .mdl-list__item-secondary-action:hover .material-icons {
+  color: #F48FB1;
+}
+
+.mdl-list__item {
+  cursor: auto !important;
+  color: inherit !important;
+}
+
+.material-icons {
+  cursor: default;
+
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+
+body[data-theme="dark"] .mdl-tabs__tab {
+  color: #f1f1f1;
+}
+
+body[data-theme="dark"] .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active {
+  color: #f3f3f3;
+}
+
+#channels-tabs {
+  -moz-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
+}
+
+#channels-tabs {
+  width: 100%;
+  height: calc(100% - 45px - 37px);
+}
+
+#channels-panel, #directs-panel {
+  height: calc(100% - 48px - 5px);
 }
