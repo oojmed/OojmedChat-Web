@@ -19,6 +19,8 @@ body,
   font-weight: 400;
 
   font-size: 1rem;
+
+  overflow: hidden;
 }
 
 body[data-thickness="light"] .main {
