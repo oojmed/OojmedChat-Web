@@ -15,6 +15,38 @@ function toggleChannelHidden(hider) {
 	}
 }
 
+function toggle12HourTime(checkbox) {
+	if (checkbox.checked) {
+		document.body.setAttribute("data-12-hour-time", "true");
+	} else {
+		document.body.setAttribute("data-12-hour-time", "false");
+	}
+}
+
+function toggleMessageShadows(checkbox) {
+	if (checkbox.checked) {
+		document.body.setAttribute("data-message-shadows", "true");
+	} else {
+		document.body.setAttribute("data-message-shadows", "false");
+	}
+}
+
+function toggleChannelsPanelShadow(checkbox) {
+	if (checkbox.checked) {
+		document.body.setAttribute("data-channels-panel-shadow", "true");
+	} else {
+		document.body.setAttribute("data-channels-panel-shadow", "false");
+	}
+}
+
+function toggleChannelsPanelHeaderShadow(checkbox) {
+	if (checkbox.checked) {
+		document.body.setAttribute("data-channels-panel-header-shadow", "true");
+	} else {
+		document.body.setAttribute("data-channels-panel-header-shadow", "false");
+	}
+}
+
 function toggleMyMessagesRight(checkbox) {
 	if (checkbox.checked) {
 		document.body.setAttribute("data-my-messages-right", "true");
@@ -89,15 +121,17 @@ function formatTimestamp(date) {
 	var minutes = date.getMinutes();
 	var seconds = date.getSeconds();
 
-	var ampm = hours >= 12 ? 'pm' : 'am';
-	hours = hours % 12;
-	hours = hours ? hours : 12; // the hour '0' should be '12'
-	minutes = minutes < 10 ? '0' + minutes : minutes;
-	seconds = seconds < 10 ? '0' + seconds : seconds;
+	if (document.body.getAttribute("data-12-hour-time") === "true") {
+		var ampm = hours >= 12 ? 'pm' : 'am';
+		hours = hours % 12;
+		hours = hours ? hours : 12; // the hour '0' should be '12'
+		minutes = minutes < 10 ? '0' + minutes : minutes;
+		seconds = seconds < 10 ? '0' + seconds : seconds;
 
-	var strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
-
-	return strTime;
+		return hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+	} else {
+		return hours + ':' + minutes + ':' + seconds;
+	}
 }
 
 function message() {
@@ -172,9 +206,17 @@ function shownChangesChat(shownMessages, chatMessages) {
 	for (var i = 0; i < shownMessages.length; i++) {
 		var exists = false;
 
+		var currentMessageJQuery = $(shownMessages[i]);
+		var currentTimestampJQuery = $(currentMessageJQuery.children()[1]);
+
 		for (var y = 0; y < chatMessages.length; y++) {
 			if (shownMessages[i].id == "msg-" + chatMessages[y]["id"]) {
 				exists = true;
+
+				var formattedTimestamp = formatTimestamp(new Date(chatMessages[y]["create_date"] * 1000));
+				if (currentTimestampJQuery.text() != formattedTimestamp) {
+					currentTimestampJQuery.text(formattedTimestamp);
+				}
 			};
 		}
 
@@ -182,7 +224,6 @@ function shownChangesChat(shownMessages, chatMessages) {
 			shownMessages[i].remove();
 		}
 
-		var currentMessageJQuery = $(shownMessages[i]);
 		var currentAuthorJQuery = $(currentMessageJQuery.children()[0]);
 
 		if (currentAuthorJQuery.css("font-size") != "0px") {
@@ -198,7 +239,6 @@ function shownChangesChat(shownMessages, chatMessages) {
 
 					$(lastMessage).css("margin-bottom", "5px");
 
-					var currentTimestampJQuery = $(currentMessageJQuery.children()[1]);
 					currentTimestampJQuery.text(currentTimestampJQuery.text().substring(3));
 				}
 			}
@@ -312,7 +352,6 @@ function update() {
 					var user = chatMessages[i]["user"];
 
 					var date = new Date(chatMessages[i]["create_date"] * 1000);
-					console.log(date);
 
 					for (var y = 0; y < users.length; y++) {
 						var currentUser = users[y]["name"];

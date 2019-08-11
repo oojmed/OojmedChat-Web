@@ -17,6 +17,8 @@ body,
 
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
+
+  font-size: 1rem;
 }
 
 body[data-thickness="light"] .main {
@@ -44,7 +46,6 @@ body[data-theme="dark"] #chat {
 
 #connectionError.hidden + #chat {
   height: calc(100% - 38px);
-  margin-top: -45px;
 }
 
 #chat {
@@ -53,7 +54,7 @@ body[data-theme="dark"] #chat {
   top: 45px;
 
   width: 100%;
-  height: calc(100% - 45px - 39px);
+  height: calc(100% - 45px - 40px);
   padding: 10px;
 
   -webkit-transition: all 0.2s linear;
@@ -94,6 +95,12 @@ body[data-theme="dark"] #channel-container {
   background-color: #424242;
 }
 
+body[data-channels-panel-shadow="true"] #channel-container {
+  -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
+}
+
 #channel-container {
   position: absolute;
   left: 0;
@@ -107,10 +114,6 @@ body[data-theme="dark"] #channel-container {
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
-
-  -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
-  -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
 
   z-index: 10;
 }
@@ -136,6 +139,12 @@ body[data-theme="dark"] #channel-header {
   background-color: #424242;
 }
 
+body[data-channels-panel-header-shadow="true"] #channels {
+  -moz-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
+}
+
 #channels {
   overflow: auto;
 
@@ -147,10 +156,6 @@ body[data-theme="dark"] #channel-header {
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
-
-  -moz-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
-  -webkit-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
-  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
 }
 
 body[data-theme="light"] #channels {
@@ -335,6 +340,12 @@ body[data-theme="dark"] .message-me .content {
   background-color: #0D47A1;
 }
 
+body[data-message-shadows="true"] .content {
+  -moz-box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
+  -webkit-box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
+  box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);  
+}
+
 .content {
   width: intrinsic;
   width: -moz-max-content;
@@ -348,10 +359,6 @@ body[data-theme="dark"] .message-me .content {
   transition: all 0.2s linear;
 
   border-radius: 5px;
-
-  -moz-box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
-  -webkit-box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
-  box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
 }
 
 .message {

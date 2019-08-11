@@ -25,6 +25,7 @@
 
 	<link href="chat.css" rel="stylesheet">
 	<script src="chat.js"></script>
+	<link rel="stylesheet" href="https://oojmed.com/material.grey-pink.min.css" />
 
 	<link rel="shortcut icon" href="favicons/favicon.ico">
 	<link rel="icon" sizes="16x16 32x32 64x64" href="favicons/favicon.ico">
@@ -48,13 +49,13 @@
 	<meta name="msapplication-config" content="favicons/browserconfig.xml">
 </head>
 
-<body onload="load();" data-theme="dark" data-author-background="false" data-thickness="light" data-my-messages-right="false">
+<body onload="load();" data-theme="dark" data-author-background="false" data-thickness="light" data-my-messages-right="false" data-12-hour-time="true" data-message-shadows="true" data-channels-panel-shadow="true" data-channels-panel-header-shadow="true">
 	<div class="cusContainer">
 		<div class="main">
 			<div id="debug" style="right: 10px; top: 10px; position: absolute; z-index:100; font-size: 14px;"></div>
 			<div id="channel-container">
 				<div id="channel-header">
-					<div style="float: right; padding: 0px; font-size: 30px; height: 30px; cursor: default;">
+					<div style="float: right; padding: 7px 1px; font-size: 30px; height: 30px; cursor: default;">
 						<i id="usersToggle" class="fas fa-users spin-hover" style="cursor: pointer;" aria-hidden="true" data-toggle="modal" data-target="#usersModal"></i>
 
 						<div id="modeChangers" style="width: fit-content; display: inline-block; cursor: default;">
@@ -75,7 +76,7 @@
 				</div>
 
 				<form class="input-group" onsubmit="createOrJoin(); return false;" style="bottom: 1px; position: absolute;">
-					<input style="border-bottom: none; border-left: none; border-right: none;" autocomplete="off" type="text" id="channelInput" class="form-control form-control" placeholder="Join or create a channel...">
+					<input style="border-bottom: none; border-left: none; border-right: none; height: 38px;" autocomplete="off" type="text" id="channelInput" class="form-control form-control" placeholder="Join or create a channel...">
 					<div class="input-group-append">
 						<button style="height: 38px; padding-bottom: 1px;" onclick="createOrJoin();" id="send-button" type="button" class="btn btn">➜</button>
 					</div>
@@ -101,7 +102,7 @@
 				</div>
 
 				<form class="input-group" onsubmit="message(); return false;">
-					<input style="border-bottom: none; border-left: none;" autocomplete="off" type="text" id="messageInput" class="form-control form-control" placeholder="Type your message...">
+					<input style="border-bottom: none; border-left: none; border-right: none; height: 38px;" autocomplete="off" type="text" id="messageInput" class="form-control form-control" placeholder="Type your message...">
 					<div class="input-group-append">
 						<button style="height: 38px; padding-bottom: 1px;" onclick="message();" id="send-button" type="button" class="btn btn">➜</button>
 					</div>
@@ -136,17 +137,47 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						Author Background: <input id="authorBackgroundCheckbox" onchange="javascript:toggleAuthorBackground(this);" type="checkbox"></input>
-						<br />
+						<h4 style="text-decoration: underline;">Appearance</h4>
+						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="authorBackgroundCheckbox">
+  						<input type="checkbox" class="mdl-switch__input" id="authorBackgroundCheckbox" onchange="javascript:toggleAuthorBackground(this);">
+  						<span class="mdl-switch__label">Author Background</span>
+						</label>
 
-						My Messages Right: <input id="myMessagesRightCheckbox" onchange="javascript:toggleMyMessagesRight(this);" type="checkbox"></input>
-						<br />
+						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="myMessagesRightCheckbox">
+  						<input type="checkbox" class="mdl-switch__input" id="myMessagesRightCheckbox" onchange="javascript:toggleMyMessagesRight(this);">
+  						<span class="mdl-switch__label">My Messages Right</span>
+						</label>
 
-						Light Font: <input checked id="thicknessCheckbox" onchange="javascript:toggleThickness(this);" type="checkbox"></input>
+						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="thicknessCheckbox">
+  						<input checked type="checkbox" class="mdl-switch__input" id="thicknessCheckbox" onchange="javascript:toggleThickness(this);">
+  						<span class="mdl-switch__label">Light Font</span>
+						</label>
+
+						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="12HourCheckbox">
+  						<input checked type="checkbox" class="mdl-switch__input" id="12HourCheckbox" onchange="javascript:toggle12HourTime(this);">
+  						<span class="mdl-switch__label">12 Hour Time</span>
+						</label>
+
+						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="messageShadowsCheckbox">
+  						<input checked type="checkbox" class="mdl-switch__input" id="messageShadowsCheckbox" onchange="javascript:toggleMessageShadows(this);">
+  						<span class="mdl-switch__label">Message Shadows</span>
+						</label>
+
+						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="channelsPanelShadowCheckbox">
+  						<input checked type="checkbox" class="mdl-switch__input" id="channelsPanelShadowCheckbox" onchange="javascript:toggleChannelsPanelShadow(this);">
+  						<span class="mdl-switch__label">Channels Panel Shadow</span>
+						</label>
+
+						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="channelsPanelHeaderShadowCheckbox">
+  						<input checked type="checkbox" class="mdl-switch__input" id="channelsPanelHeaderShadowCheckbox" onchange="javascript:toggleChannelsPanelHeaderShadow(this);">
+  						<span class="mdl-switch__label">Channels Panel Header Shadow</span>
+						</label>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<script src="https://oojmed.com/material.min.js"></script>
 </body>
 
 </html>
