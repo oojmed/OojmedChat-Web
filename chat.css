@@ -39,14 +39,21 @@ body[data-theme="light"] #chat {
 
 body[data-theme="dark"] #chat {
   color: #ffffff;
-  background-color: #1f1f1f;
+  background-color: #212121;
+}
+
+#connectionError.hidden + #chat {
+  height: calc(100% - 38px);
+  margin-top: -45px;
 }
 
 #chat {
   overflow: auto;
 
+  top: 45px;
+
   width: 100%;
-  height: 94%;
+  height: calc(100% - 45px - 39px);
   padding: 10px;
 
   -webkit-transition: all 0.2s linear;
@@ -54,29 +61,6 @@ body[data-theme="dark"] #chat {
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
   word-break: break-all;
-}
-
-body[data-theme="light"] #users {
-  color: #1f1f1f;
-  background-color: white;
-}
-
-body[data-theme="dark"] #users {
-  color: #ffffff;
-  background-color: #2f2f2f;
-}
-
-#users {
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  height: 5.5%;
-  padding: 5px 10px;
-
-  -webkit-transition: all 0.2s linear;
-  -moz-transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  transition: all 0.2s linear;
 }
 
 #chat-container {
@@ -95,26 +79,19 @@ body[data-theme="dark"] #users {
 }
 
 body[data-theme="light"] #chat-container {
-  border: 5px solid lightgray;
   background-color: white;
 }
 
 body[data-theme="dark"] #chat-container {
-  border: 5px solid gray;
   background-color: #2f2f2f;
 }
 
 body[data-theme="light"] #channel-container {
-  border: 5px solid lightgray;
-  border-right: none;
   background-color: #ffffff;
 }
 
 body[data-theme="dark"] #channel-container {
-  border: 5px solid gray;
-  border-right: none;
-
-  background-color: #1f1f1f;
+  background-color: #424242;
 }
 
 #channel-container {
@@ -125,42 +102,63 @@ body[data-theme="dark"] #channel-container {
 
   width: 225px;
   height: 100%;
-  padding-right: 10px;
-  padding-left: 10px;
 
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
+
+  -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
+
+  z-index: 10;
+}
+
+#channel-header {
+  padding: 1px 5px;
+
+  height: 45px;
+
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+
+  background-color: #424242;
+}
+
+body[data-theme="light"] #channel-header {
+  background-color: white;
+}
+
+body[data-theme="dark"] #channel-header {
+  background-color: #424242;
 }
 
 #channels {
-  border-radius: 5px 5px 0px 0px;
-
   overflow: auto;
 
   width: 100%;
-  height: 86%;
+  height: calc(100% - 45px - 37px);
   padding: 10px;
 
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
+
+  -moz-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .5);
 }
 
 body[data-theme="light"] #channels {
-  border: 3px solid lightgray;
   background-color: white;
 }
 
 body[data-theme="dark"] #channels {
-  border: 3px solid gray;
   background-color: #2f2f2f;
-}
-
-#channelInput {
-  border-bottom-left-radius: 5px;
 }
 
 body[data-theme="light"] #channelInput {
@@ -168,7 +166,7 @@ body[data-theme="light"] #channelInput {
 }
 
 body[data-theme="dark"] #channelInput {
-  border: 3px solid gray;
+  border: 3px solid #757575;
 }
 
 body[data-theme="light"] #messageInput {
@@ -176,7 +174,7 @@ body[data-theme="light"] #messageInput {
 }
 
 body[data-theme="dark"] #messageInput {
-  border: 3px solid gray;
+  border: 3px solid #757575;
 }
 
 body[data-theme="light"] .channel {
@@ -210,7 +208,7 @@ body[data-theme="dark"] .current-channel {
 }
 
 body[data-theme="dark"] #send-button {
-  background-color: #7f7f7f;
+  background-color: #757575;
 }
 
 body[data-theme="light"] #send-button {
@@ -309,6 +307,8 @@ body[data-theme="dark"] .author-mod {
 }
 
 .author {
+  font-weight: bold;
+
   -webkit-transition: color 0.2s linear;
   -moz-transition: color 0.2s linear;
   -o-transition: color 0.2s linear;
@@ -336,7 +336,10 @@ body[data-theme="dark"] .message-me .content {
 }
 
 .content {
-  width: fit-content;
+  width: intrinsic;
+  width: -moz-max-content;
+  width: -webkit-max-content;
+
   padding: 5px;
 
   -webkit-transition: all 0.2s linear;
@@ -345,6 +348,10 @@ body[data-theme="dark"] .message-me .content {
   transition: all 0.2s linear;
 
   border-radius: 5px;
+
+  -moz-box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
+  -webkit-box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
+  box-shadow: 5px 3px 10px rgba(0, 0, 0, .25);
 }
 
 .message {
@@ -454,37 +461,37 @@ body[data-theme="dark"][data-author-background="true"] .message>.author {
 
 /* Track */
 body[data-theme="dark"] ::-webkit-scrollbar-track {
-  background: #5f5f5f;
+  background: #424242;
 }
 
 /* Handle */
 body[data-theme="dark"] ::-webkit-scrollbar-thumb {
-  background: silver;
+  background: #757575;
 }
 
 /* Handle on hover */
 body[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-  background: lightgray;
+  background: #9E9E9E;
 }
 
 /* Track */
 body[data-theme="light"] ::-webkit-scrollbar-track {
-  background: #666;
+  background: #9E9E9E;
 }
 
 /* Handle */
 body[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: #999;
+  background: #E0E0E0;
 }
 
 /* Handle on hover */
 body[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
-  background: #888;
+  background: #EEEEEE;
 }
 
 body[data-theme="dark"] #channel-hider {
   color: #f0f0f0;
-  background-color: gray;
+  background-color: #424242;
 }
 
 body[data-theme="light"] #channel-hider {
@@ -500,28 +507,26 @@ body[data-theme="light"] #channel-hider {
   width: 100%;
 }
 
-#channel-container.hidden+#channel-hider {
-  left: 5px;
-}
-
 #channel-hider-content {
-  width: fit-content;
-
-  cursor: pointer;
+  width: intrinsic;
+  width: -moz-max-content;
+  width: -webkit-max-content;
 
   font-weight: 200;
   line-height: 30px;
 }
 
 #channel-hider {
-  z-index: 100;
+  cursor: pointer;
+
+  z-index: 1;
 
   position: absolute;
   top: 50%;
-  left: 230px;
+  left: 200px;
 
-  width: fit-content;
   width: 25px;
+
   padding: 3px;
 
   -webkit-transition: all 0.2s linear;
@@ -533,19 +538,24 @@ body[data-theme="light"] #channel-hider {
 
   opacity: 0;
   border-radius: 0px 8px 8px 0px;
-  border: 1px solid gray;
-  background-color: gray;
+  border: 1px solid #757575;
+  background-color: #424242;
 
   font-size: 32px;
   font-weight: 500;
 }
 
 #channel-container:hover + #channel-hider {
+  left: 225px;
   opacity: 0.75;
 }
 
 .spin-hover:hover {
   animation: spin 2s infinite linear;
+}
+
+.spin {
+  animation: spin 2s infinite ease-in-out;
 }
 
 @-webkit-keyframes spin {
@@ -570,4 +580,78 @@ body[data-theme="light"] #channel-hider {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg)
   }
+}
+
+body[data-theme="light"] .modal-content {
+  background-color: rgba(225, 225, 225, 0.95);
+  color: #1f1f1f;
+}
+
+body[data-theme="dark"] .modal-content {
+  background-color: rgba(66, 66, 66, 0.95);
+  color: #f1f1f1;
+}
+
+.modal-content {
+  background-color: rgba(225, 225, 225, 0.95);
+  color:#1f1f1f;
+
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+.modal-header {
+  background-color: rgba(0, 0, 0, 0.25);
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="dark"] .close {
+  color: white;
+}
+
+#connectionError.hidden {
+  top: -45px;
+
+  opacity: 0;
+}
+
+#connectionError {
+  opacity: 1;
+
+  z-index: 1000;
+
+  top: 0px;
+
+  width: 100%;
+  height: 45px;
+
+  position: relative;
+
+  background-color: #D50000;
+
+  padding: 5px;
+
+  font-weight: bold;
+
+  -moz-box-shadow: 0px 5px 5px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, .5);
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, .5);
+
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+#connectionErrorContent {
+  left: 50px;
+
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+
+  position: absolute;
 }

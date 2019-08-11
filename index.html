@@ -26,82 +26,127 @@
 	<link href="chat.css" rel="stylesheet">
 	<script src="chat.js"></script>
 
-	<link rel="icon" type="image/png" href="favicon.png">
+	<link rel="shortcut icon" href="favicons/favicon.ico">
+	<link rel="icon" sizes="16x16 32x32 64x64" href="favicons/favicon.ico">
+	<link rel="icon" type="image/png" sizes="196x196" href="favicons/favicon-192.png">
+	<link rel="icon" type="image/png" sizes="160x160" href="favicons/favicon-160.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="favicons/favicon-96.png">
+	<link rel="icon" type="image/png" sizes="64x64" href="favicons/favicon-64.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16.png">
+	<link rel="apple-touch-icon" href="favicons/favicon-57.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="favicons/favicon-114.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="favicons/favicon-72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="favicons/favicon-144.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="favicons/favicon-60.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="favicons/favicon-120.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="favicons/favicon-76.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="favicons/favicon-152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="favicons/favicon-180.png">
+	<meta name="msapplication-TileColor" content="#FFFFFF">
+	<meta name="msapplication-TileImage" content="favicons/favicon-144.png">
+	<meta name="msapplication-config" content="favicons/browserconfig.xml">
 </head>
 
 <body onload="load();" data-theme="dark" data-author-background="false" data-thickness="light" data-my-messages-right="false">
 	<div class="cusContainer">
 		<div class="main">
-			<div id="debug" style="right: 10px; top: 10px; position: absolute; z-index:100;"></div>
+			<div id="debug" style="right: 10px; top: 10px; position: absolute; z-index:100; font-size: 14px;"></div>
 			<div id="channel-container">
-				<div style="float: right; padding: 0px; font-size: 30px; height: 30px;">
-					<div id="modeChangers" style="width: fit-content; display: inline-block;">
-						<div id="nightMode" title="Night Mode" style="display: none;" onclick="javascript:nightMode();">
-							<i class="fas fa-moon spin-hover" aria-hidden="true"></i>
+				<div id="channel-header">
+					<div style="float: right; padding: 0px; font-size: 30px; height: 30px; cursor: default;">
+						<i id="usersToggle" class="fas fa-users spin-hover" style="cursor: pointer;" aria-hidden="true" data-toggle="modal" data-target="#usersModal"></i>
+
+						<div id="modeChangers" style="width: fit-content; display: inline-block; cursor: default;">
+							<div id="nightMode" title="Night Mode" style="display: none; cursor: pointer;" onclick="javascript:nightMode();">
+								<i class="fas fa-moon spin-hover" aria-hidden="true"></i>
+							</div>
+							<div id="lightMode" title="Light Mode" style="cursor: pointer;" onclick="javascript:lightMode();"><i class="fas fa-sun spin-hover" aria-hidden="true"></i></div>
 						</div>
-						<div id="lightMode" title="Light Mode" onclick="javascript:lightMode();"><i class="fas fa-sun spin-hover" aria-hidden="true"></i></div>
+
+						<i id="settingsToggle" class="fas fa-cog spin-hover" style="cursor: pointer;" aria-hidden="true" data-toggle="modal" data-target="#settingsModal"></i>
 					</div>
 
-					<i class="fas fa-cog spin-hover" aria-hidden="true" data-toggle="modal" data-target="#settingsModal"></i>
+					<h5 style="margin: 0; margin-top: 14px; margin-bottom: 3px;">Channels</h5>
 				</div>
-
-				<h5 style="margin: 0; margin-top: 14px; margin-bottom: 3px;">Channels</h5>
 
 				<div id="channels">
 
 				</div>
 
-				<form class="input-group" onsubmit="createOrJoin(); return false;">
-					<input style="border-top: none;" autocomplete="off" type="text" id="channelInput" class="form-control form-control" placeholder="Join or create a channel...">
+				<form class="input-group" onsubmit="createOrJoin(); return false;" style="bottom: 1px; position: absolute;">
+					<input style="border-bottom: none; border-left: none; border-right: none;" autocomplete="off" type="text" id="channelInput" class="form-control form-control" placeholder="Join or create a channel...">
 					<div class="input-group-append">
-						<button style="height: 38px; border-bottom-right-radius: 5px;" onclick="createOrJoin();" id="send-button" type="button" class="btn btn">➜</button>
+						<button style="height: 38px; padding-bottom: 1px;" onclick="createOrJoin();" id="send-button" type="button" class="btn btn">➜</button>
 					</div>
 				</form>
 			</div>
 
-			<div id="channel-hider">
-				<div id="channel-hider-content" onclick="javascript:toggleChannelHidden(this);">
-					<
+			<div id="channel-hider" onclick="javascript:toggleChannelHidden(this);">
+				<div id="channel-hider-content">
+					&lt;
 				</div>
 			</div>
 
 			<div id="chat-container">
+				<div id="connectionError" class="hidden">
+					<i class="fas fa-exclamation-triangle" style="font-size: 36px;"></i>
+					<div id="connectionErrorContent">
+						Connection Error
+					</div>
+				</div>
+
 				<div id="chat">
 
 				</div>
 
-				<form class="input-group" onsubmit="message(); return false;" style="margin-top:2px;">
+				<form class="input-group" onsubmit="message(); return false;">
 					<input style="border-bottom: none; border-left: none;" autocomplete="off" type="text" id="messageInput" class="form-control form-control" placeholder="Type your message...">
 					<div class="input-group-append">
 						<button style="height: 38px; padding-bottom: 1px;" onclick="message();" id="send-button" type="button" class="btn btn">➜</button>
 					</div>
 				</form>
 			</div>
-	</div>
-	<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content" style="background-color: rgba(225, 225, 225, 0.95); color:#1f1f1f;">
-				<div class="modal-header" style="border-bottom: 1px solid rgba(0, 0, 0, 0.2);">
-					<h5 class="modal-title" id="settingsModalLabel">Settings</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					Author Background: <input id="authorBackgroundCheckbox" onchange="javascript:toggleAuthorBackground(this);" type="checkbox"></input>
-					<br/>
+		</div>
 
-					My Messages Right: <input id="myMessagesRightCheckbox" onchange="javascript:toggleMyMessagesRight(this);" type="checkbox"></input>
-					<br/>
-
-					Light Font: <input checked id="thicknessCheckbox" onchange="javascript:toggleThickness(this);" type="checkbox"></input>
+		<div class="modal fade" id="usersModal" tabindex="-1" role="dialog" aria-labelledby="usersModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="usersModalLabel">Users</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<ul id="users">
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<script>
-	</script>
+		<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						Author Background: <input id="authorBackgroundCheckbox" onchange="javascript:toggleAuthorBackground(this);" type="checkbox"></input>
+						<br />
+
+						My Messages Right: <input id="myMessagesRightCheckbox" onchange="javascript:toggleMyMessagesRight(this);" type="checkbox"></input>
+						<br />
+
+						Light Font: <input checked id="thicknessCheckbox" onchange="javascript:toggleThickness(this);" type="checkbox"></input>
+					</div>
+				</div>
+			</div>
+		</div>
 </body>
 
 </html>

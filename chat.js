@@ -8,12 +8,10 @@ function toggleChannelHidden(hider) {
 
 	if (channelContainer.className == "") {
 		channelContainer.className = "hidden";
-		hider.innerText = "<";
-		$(hider).css('right', '-5px');
+		document.getElementById("channel-hider-content").innerText = ">";
 	} else {
 		channelContainer.className = "";
-		hider.innerText = ">";
-		$(hider).css('right', '-225px');
+		document.getElementById("channel-hider-content").innerText = "<";
 	}
 }
 
@@ -154,7 +152,23 @@ function isMod(user, mods) {
 	return mods.indexOf(user) !== -1;
 }
 
-function shownChanges(shownMessages, chatMessages) {
+function shownChangesUsers(shownUsers, users) {
+	for (var i = 0; i < shownUsers.length; i++) {
+		var exists = false;
+
+		for (var y = 0; y < users.length; y++) {
+			if (shownUsers[i].id == "usr-" + users[y]["name"]) {
+				exists = true;
+			};
+		}
+
+		if (!exists) {
+			shownUsers[i].remove();
+		}
+	}
+}
+
+function shownChangesChat(shownMessages, chatMessages) {
 	for (var i = 0; i < shownMessages.length; i++) {
 		var exists = false;
 
@@ -182,10 +196,10 @@ function shownChanges(shownMessages, chatMessages) {
 					currentAuthorJQuery.css("font-size", "0px");
 					currentAuthorJQuery.attr("data-continued-message", "true");
 
-					$(lastMessage).css("margin-bottom", "10px");
+					$(lastMessage).css("margin-bottom", "5px");
 
 					var currentTimestampJQuery = $(currentMessageJQuery.children()[1]);
-					currentTimestampJQuery.text(currentTimestampJQuery.text().substring(1));
+					currentTimestampJQuery.text(currentTimestampJQuery.text().substring(3));
 				}
 			}
 		}
@@ -229,6 +243,8 @@ function update() {
 			channel: activeChannel
 		})
 		.done(function (data) {
+			document.getElementById("connectionError").className = "hidden";
+
 			$("#debug").html("");
 
 			debugAdd("getChannel() - " + (window.t1 - window.t0).toFixed(5) + "ms");
@@ -276,11 +292,11 @@ function update() {
 
 			window.t0 = performance.now();
 
-			shownChanges($("#chat").children(), chatMessages);
+			shownChangesChat($("#chat").children(), chatMessages);
 
 			window.t1 = performance.now();
 
-			debugAdd("<br/>shownChanges() - " + (window.t1 - window.t0).toFixed(5) + "ms");
+			debugAdd("<br/>shownChangesChat() [1] - " + (window.t1 - window.t0).toFixed(5) + "ms");
 
 			window.t0 = performance.now();
 
@@ -294,7 +310,9 @@ function update() {
 				if ($("#msg-" + id).html() == undefined) {
 					var msg = (' ' + chatMessages[i]["message"]).slice(1); //deep copy
 					var user = chatMessages[i]["user"];
-					var date = new Date(chatMessages[i]["create_date"] + ' UTC');
+
+					var date = new Date(chatMessages[i]["create_date"] * 1000);
+					console.log(date);
 
 					for (var y = 0; y < users.length; y++) {
 						var currentUser = users[y]["name"];
@@ -327,7 +345,7 @@ function update() {
 						authorClass = " author-mod";
 					}
 
-					var timestamp = "&nbsp;" + formatTimestamp(date);
+					var timestamp = "&nbsp;&nbsp;&nbsp;" + formatTimestamp(date);
 
 					var element = '<div id="msg-' + id + '" class="' + messageClass + '"><div class="author' + authorClass + '">' + user + '</div><div class="timestamp">' + timestamp + '</div><div class="content">' + msg + "</div></div>";
 
@@ -341,11 +359,11 @@ function update() {
 
 			window.t0 = performance.now();
 
-			shownChanges($("#chat").children(), chatMessages);
+			shownChangesChat($("#chat").children(), chatMessages);
 
 			window.t1 = performance.now();
 
-			debugAdd("shownChanges() [2] - " + (window.t1 - window.t0).toFixed(5) + "ms");
+			debugAdd("shownChangesChat() [2] - " + (window.t1 - window.t0).toFixed(5) + "ms");
 
 			window.t0 = performance.now();
 
@@ -395,30 +413,45 @@ function update() {
 
 			debugAdd("<br/>channelDisplayer - " + (window.t1 - window.t0).toFixed(5) + "ms");
 
-			/*window.t0 = performance.now();
+			window.t0 = performance.now();
 
-			$("#users").text("");
+			shownChangesUsers($("#users").children(), users);
+
+			window.t1 = performance.now();
+
+			debugAdd("<br/>shownChangesUsers() [1] - " + (window.t1 - window.t0).toFixed(5) + "ms");
+
+			window.t0 = performance.now();
+
 			for (var i = 0; i < users.length; i++) {
-				var c = "";
+				var replacedUser = users[i]["name"].replace(/ /g, '-');
 
-				if (users[i]["name"] == username) {
-					c = " author-me"
-				} else if (isMod(users[i]["name"], mods)) {
-					c = " author-mod";
-				}
+				if ($("#usr-" + replacedUser).html() == undefined) {
+					var c = "";
 
-				var element = '<span class="user' + c + '">' + users[i]["name"] + '</span>'
+					if (users[i]["name"] == username) {
+						c = " author-me";
+					} else if (isMod(users[i]["name"], mods)) {
+						c = " author-mod";
+					}
 
-				if (i != users.length - 1) {
-					$("#users").append(element + ", ");
-				} else {
-					$("#users").append(element);
+					var element = '<li id="usr-' + replacedUser + '" class="author' + c + '">@' + users[i]["name"] + '</li>';
+
+					$(twemoji.parse(element)).hide().fadeIn(1000).appendTo("#users");
 				}
 			}
 
 			window.t1 = performance.now();
 
-			debugAdd("userDisplayer - " + (window.t1 - window.t0).toFixed(5) + "ms");*/
+			debugAdd("userDisplayer - " + (window.t1 - window.t0).toFixed(5) + "ms");
+
+			window.t0 = performance.now();
+
+			shownChangesUsers($("#users").children(), users);
+
+			window.t1 = performance.now();
+
+			debugAdd("shownChangesUsers() [2] - " + (window.t1 - window.t0).toFixed(5) + "ms");
 
 			window.t1 = performance.now();
 
@@ -456,11 +489,7 @@ function update() {
 			requestNum++;
 		})
 		.fail(function (xhr, status, error) {
-			$("#debug").html("");
-
-			$("#debug").show();
-
-			debugAdd('<span style="color: red;">Connection error</span>');
+			document.getElementById("connectionError").className = "";
 			console.error(xhr.responseText);
 		});
 
@@ -536,11 +565,47 @@ function load() {
 		var relativePosition = event.pageX - $("#chat-container").offset().left;
 		var width = $("#chat-container").width();
 
+		var hidden = document.getElementById("channel-container").className == "hidden";
+
 		if (relativePosition < width / 10) {
 			$("#channel-hider").css("opacity", 0.75);
+
+			if (!hidden) { $("#channel-hider").css("left", "225px"); } else { $("#channel-hider").css("left", "0px"); }
 		} else {
 			$("#channel-hider").css("opacity", 0);
+
+			if (!hidden) { $("#channel-hider").css("left", "200px"); } else { $("#channel-hider").css("left", "-25px"); }
 		}
+	});
+
+	$("#channel-container").mousemove(function (event) {
+		$("#channel-hider").css("left", "225px");
+	});
+
+	$("#channel-hider").mouseup(function (event) {
+		var hidden = document.getElementById("channel-container").className == "hidden";
+
+		if (hidden) { $("#channel-hider").css("left", "225px"); } else { $("#channel-hider").css("left", "-25px"); }
+	});
+
+	$('#settingsModal').on('shown.bs.modal', function (e) {
+		$('#settingsToggle').addClass('spin').removeClass('spin-hover');
+	});
+
+	$('#settingsModal').on('hidden.bs.modal', function (e) {
+		$('#settingsToggle').one("webkitAnimationIteration oanimationiteration MSAnimationIteration animationiteration", function(event) {
+			$('#settingsToggle').addClass('spin-hover').removeClass('spin');
+		});
+	});
+
+	$('#usersModal').on('shown.bs.modal', function (e) {
+		$('#usersToggle').addClass('spin').removeClass('spin-hover');
+	});
+
+	$('#usersModal').on('hidden.bs.modal', function (e) {
+		$('#usersToggle').one("webkitAnimationIteration oanimationiteration MSAnimationIteration animationiteration", function(event) {
+			$('#usersToggle').addClass('spin-hover').removeClass('spin');
+		});
 	});
 
 	//setupNotifications();
