@@ -2,6 +2,8 @@
 <html>
 
 <head>
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+
 	<title>Oojmed Chat</title>
 
 	<meta charset="utf-8">
@@ -147,47 +149,55 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+						<h5 class="modal-title" id="settingsModalLabel">Settings<p style="color: gray; font-size: 12px; line-height: 10px; margin-bottom: 0px;">OojmedChat-Web v1.0.0 - <a href="https://github.com/oojmed/OojmedChat-Web" target="_blank" style="color: lightgray;">GitHub</a></h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<h4 style="text-decoration: underline; margin-top: 5px; margin-bottom: 5px;">Appearance</h4>
-						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="authorBackgroundCheckbox">
-  						<input type="checkbox" class="mdl-switch__input" id="authorBackgroundCheckbox" onchange="javascript:toggleAuthorBackground(this);">
-  						<span class="mdl-switch__label">Author Background</span>
-						</label>
+						<button class="collapsible">Channels Panel</button>
+						<div class="collapsible-content">
+							<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect for-data-channels-panel-shadow" for="channelsPanelShadowCheckbox">
+	  						<input checked type="checkbox" class="mdl-switch__input" id="channelsPanelShadowCheckbox" onchange="javascript:toggleChannelsPanelShadow(this);">
+	  						<span class="mdl-switch__label">Channels Panel Shadow</span>
+							</label>
 
-						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="myMessagesRightCheckbox">
-  						<input type="checkbox" class="mdl-switch__input" id="myMessagesRightCheckbox" onchange="javascript:toggleMyMessagesRight(this);">
-  						<span class="mdl-switch__label">My Messages Right</span>
-						</label>
+							<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect for-data-channels-panel-header-shadow" for="channelsPanelHeaderShadowCheckbox">
+	  						<input checked type="checkbox" class="mdl-switch__input" id="channelsPanelHeaderShadowCheckbox" onchange="javascript:toggleChannelsPanelHeaderShadow(this);">
+	  						<span class="mdl-switch__label">Channels Panel Header Shadow</span>
+							</label>
+						</div>
 
-						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="thicknessCheckbox">
-  						<input checked type="checkbox" class="mdl-switch__input" id="thicknessCheckbox" onchange="javascript:toggleThickness(this);">
-  						<span class="mdl-switch__label">Light Font</span>
-						</label>
+						<button class="collapsible">Messages</button>
+						<div class="collapsible-content">
+							<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect for-data-author-background" for="authorBackgroundCheckbox">
+	  						<input type="checkbox" class="mdl-switch__input" id="authorBackgroundCheckbox" onchange="javascript:toggleAuthorBackground(this);">
+	  						<span class="mdl-switch__label">Author Background</span>
+							</label>
 
-						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="12HourCheckbox">
-  						<input checked type="checkbox" class="mdl-switch__input" id="12HourCheckbox" onchange="javascript:toggle12HourTime(this);">
-  						<span class="mdl-switch__label">12 Hour Time</span>
-						</label>
+							<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect for-data-my-messages-right" for="myMessagesRightCheckbox">
+	  						<input type="checkbox" class="mdl-switch__input" id="myMessagesRightCheckbox" onchange="javascript:toggleMyMessagesRight(this);">
+	  						<span class="mdl-switch__label">My Messages Right</span>
+							</label>
 
-						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="messageShadowsCheckbox">
-  						<input checked type="checkbox" class="mdl-switch__input" id="messageShadowsCheckbox" onchange="javascript:toggleMessageShadows(this);">
-  						<span class="mdl-switch__label">Message Shadows</span>
-						</label>
+							<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect for-data-message-shadows" for="messageShadowsCheckbox">
+	  						<input checked type="checkbox" class="mdl-switch__input" id="messageShadowsCheckbox" onchange="javascript:toggleMessageShadows(this);">
+	  						<span class="mdl-switch__label">Message Shadows</span>
+							</label>
 
-						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="channelsPanelShadowCheckbox">
-  						<input checked type="checkbox" class="mdl-switch__input" id="channelsPanelShadowCheckbox" onchange="javascript:toggleChannelsPanelShadow(this);">
-  						<span class="mdl-switch__label">Channels Panel Shadow</span>
-						</label>
+							<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect for-data-12-hour-time" for="12HourCheckbox">
+	  						<input checked type="checkbox" class="mdl-switch__input" id="12HourCheckbox" onchange="javascript:toggle12HourTime(this);">
+	  						<span class="mdl-switch__label">12 Hour Time</span>
+							</label>
+						</div>
 
-						<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="channelsPanelHeaderShadowCheckbox">
-  						<input checked type="checkbox" class="mdl-switch__input" id="channelsPanelHeaderShadowCheckbox" onchange="javascript:toggleChannelsPanelHeaderShadow(this);">
-  						<span class="mdl-switch__label">Channels Panel Header Shadow</span>
-						</label>
+						<button class="collapsible">Everything</button>
+						<div class="collapsible-content">
+							<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect for-data-thickness" for="thicknessCheckbox">
+  							<input checked type="checkbox" class="mdl-switch__input" id="thicknessCheckbox" onchange="javascript:toggleThickness(this);">
+  							<span class="mdl-switch__label">Light Font</span>
+							</label>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,57 @@ var activeChannel;
 var oldActiveChannel;
 var username;
 
+function setMaterialSwitchOn(key) {
+	try {
+		$('.for-' + key)[0].MaterialSwitch.on();
+	} catch {
+
+	}
+}
+
+function setMaterialSwitchOff(key) {
+	try {
+		$('.for-' + key)[0].MaterialSwitch.off();
+	} catch {
+
+	}
+}
+
+function loadSettings() {
+	for (var i = 0; i < localStorage.length; i++){
+		var key = localStorage.key(i);
+		var value = localStorage.getItem(key);
+
+		if (key.substring(0, 5) === "data-") {
+			document.body.setAttribute(key, value);
+
+			if (key != 'data-theme') {
+				if (value === "true" || value === "light") {
+					setTimeout(setMaterialSwitchOn, 0, key);
+				} else {
+					setTimeout(setMaterialSwitchOff, 0, key);
+				}
+			} else {
+				if (value == "dark") {
+					$('#nightMode').hide();
+					$('#lightMode').show();
+				} else {
+					$('#nightMode').show();
+					$('#lightMode').hide();
+				}
+			}
+		}
+	}
+}
+
+function saveSettings() {
+	$.each(document.body.attributes, function() {
+    if (this.name.substring(0, 5) === "data-") {
+			localStorage.setItem(this.name, this.value);
+		}
+	});
+}
+
 function toggleChannelHidden(hider) {
 	var channelContainer = document.getElementById("channel-container");
 
@@ -13,6 +64,8 @@ function toggleChannelHidden(hider) {
 		channelContainer.className = "";
 		document.getElementById("channel-hider-content").innerText = "<";
 	}
+
+	saveSettings();
 }
 
 function toggle12HourTime(checkbox) {
@@ -21,6 +74,10 @@ function toggle12HourTime(checkbox) {
 	} else {
 		document.body.setAttribute("data-12-hour-time", "false");
 	}
+
+	update();
+
+	saveSettings();
 }
 
 function toggleMessageShadows(checkbox) {
@@ -29,6 +86,8 @@ function toggleMessageShadows(checkbox) {
 	} else {
 		document.body.setAttribute("data-message-shadows", "false");
 	}
+
+	saveSettings();
 }
 
 function toggleChannelsPanelShadow(checkbox) {
@@ -37,6 +96,8 @@ function toggleChannelsPanelShadow(checkbox) {
 	} else {
 		document.body.setAttribute("data-channels-panel-shadow", "false");
 	}
+
+	saveSettings();
 }
 
 function toggleChannelsPanelHeaderShadow(checkbox) {
@@ -45,6 +106,8 @@ function toggleChannelsPanelHeaderShadow(checkbox) {
 	} else {
 		document.body.setAttribute("data-channels-panel-header-shadow", "false");
 	}
+
+	saveSettings();
 }
 
 function toggleMyMessagesRight(checkbox) {
@@ -53,6 +116,8 @@ function toggleMyMessagesRight(checkbox) {
 	} else {
 		document.body.setAttribute("data-my-messages-right", "false");
 	}
+
+	saveSettings();
 }
 
 function toggleThickness(checkbox) {
@@ -61,6 +126,8 @@ function toggleThickness(checkbox) {
 	} else {
 		document.body.setAttribute("data-thickness", "regular");
 	}
+
+	saveSettings();
 }
 
 function toggleAuthorBackground(checkbox) {
@@ -69,6 +136,8 @@ function toggleAuthorBackground(checkbox) {
 	} else {
 		document.body.setAttribute("data-author-background", "false");
 	}
+
+	saveSettings();
 }
 
 function nightMode() {
@@ -76,6 +145,8 @@ function nightMode() {
 
 	document.getElementById("nightMode").style.display = "none";
 	document.getElementById("lightMode").style.display = "block";
+
+	saveSettings();
 }
 
 function lightMode() {
@@ -83,10 +154,14 @@ function lightMode() {
 
 	document.getElementById("nightMode").style.display = "block";
 	document.getElementById("lightMode").style.display = "none";
+
+	saveSettings();
 }
 
 function channelClick(element) {
-	activeChannel = element.innerText;
+  location.href = '#' + element.href.split('#')[1];
+
+	getChannel();
 
 	var shownChannels = $.merge($("#channels").children(), $("#directs").children())
 
@@ -121,15 +196,18 @@ function formatTimestamp(date) {
 	var minutes = date.getMinutes();
 	var seconds = date.getSeconds();
 
+	minutes = minutes < 10 ? '0' + minutes : minutes;
+	seconds = seconds < 10 ? '0' + seconds : seconds;
+
 	if (document.body.getAttribute("data-12-hour-time") === "true") {
 		var ampm = hours >= 12 ? 'pm' : 'am';
 		hours = hours % 12;
 		hours = hours ? hours : 12; // the hour '0' should be '12'
-		minutes = minutes < 10 ? '0' + minutes : minutes;
-		seconds = seconds < 10 ? '0' + seconds : seconds;
 
 		return hours + ':' + minutes + ':' + seconds + ' ' + ampm;
 	} else {
+		hours = hours < 10 ? '0' + hours : hours;
+
 		return hours + ':' + minutes + ':' + seconds;
 	}
 }
@@ -225,8 +303,8 @@ function shownChangesChat(shownMessages, chatMessages) {
 				exists = true;
 
 				var formattedTimestamp = formatTimestamp(new Date(chatMessages[y]["create_date"] * 1000));
-				if (currentTimestampJQuery.text() != formattedTimestamp) {
-					currentTimestampJQuery.text(formattedTimestamp);
+				if (currentTimestampJQuery.html() != '&nbsp;&nbsp;&nbsp;' + formattedTimestamp) {
+					currentTimestampJQuery.html('&nbsp;&nbsp;&nbsp;' + formattedTimestamp);
 				}
 			};
 		}
@@ -440,7 +518,8 @@ function update() {
 			window.t0 = performance.now();
 
 			for (var i = 0; i < channels.length; i++) {
-				var replacedChannel = channels[i].replace(/[ \/]/g,'-');
+        channels[i] = encodeURIComponent(channels[i]);
+				var replacedChannel = channels[i].replace(/%/g, '-');
 
 				if ($("#ch-" + replacedChannel).html() == undefined) {
 					var c = "channel";
@@ -450,8 +529,8 @@ function update() {
 					}
 
 					var appendToElement = "channels";
-					if (channels[i].substring(0, 3) === "DM/") {
-						var other = channels[i].split('/').slice(-2).filter(u=>u!=username)[0];
+					if (decodeURIComponent(channels[i]).substring(0, 3) === "DM/") {
+						var other = decodeURIComponent(channels[i]).split('/').slice(-2).filter(u=>u!=username)[0];
 
 						if (other == undefined) { other = username; }
 
@@ -459,7 +538,7 @@ function update() {
 
 						appendToElement = "directs";
 					} else {
-						var element = '<a onclick="javascript:channelClick(this);" id="ch-' + replacedChannel + '" href="#' + channels[i] + '" class="' + c + '">' + channels[i] + '</a> <br />';
+						var element = '<a onclick="javascript:channelClick(this);" id="ch-' + replacedChannel + '" href="#' + channels[i] + '" class="' + c + '">' + decodeURIComponent(channels[i]) + '</a> <br />';
 					}
 
 					var realElement = $(twemoji.parse(element)).hide().fadeIn(1000).appendTo("#" + appendToElement);
@@ -610,6 +689,8 @@ function getNick() {
 }
 
 function load() {
+	loadSettings();
+
 	getNick();
 
 	getChannel();
@@ -668,6 +749,24 @@ function load() {
 			$('#usersToggle').addClass('spin-hover').removeClass('spin');
 		});
 	});
+
+	var coll = document.getElementsByClassName("collapsible");
+	var i;
+
+	for (i = 0; i < coll.length; i++) {
+  	coll[i].addEventListener("click", function() {
+    	this.classList.toggle("collapsible-active");
+
+    	var content = this.nextElementSibling;
+    	if (content.style.maxHeight){
+      	content.style.maxHeight = null;
+    	} else {
+      	content.style.maxHeight = content.scrollHeight + "px";
+    	}
+  	});
+	}
+
+	update();
 
 	//setupNotifications();
 }
